@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<label>email</label>
+  <input type="email" id="email" name="" placeholder="enter the email">
+	 <label>password</label>
+  <input type="password" id="par" name="par">
+  
+   <button id="click">login</button>
+
+</body>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.16.0/firebase.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDWL8SlS28eqK2WdsPZ66NqQN2BEks09c0",
+    authDomain: "fir-e2c96.firebaseapp.com",
+    databaseURL: "https://fir-e2c96-default-rtdb.firebaseio.com/",
+    projectId: "fir-e2c96",
+    storageBucket: "fir-e2c96.appspot.com",
+    messagingSenderId: "873698487049",
+    appId: "1:873698487049:web:f0c4f13dd431f6d45f01d8"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  var ref=firebase.database().ref("form");
+  var email,pass;
+ document.getElementById("click").addEventListener("click",function(){
+ 		email=document.querySelector("#email").value;
+ 		pass=document.querySelector("#par").value;
+ 		ref.on('value',fetchData,errorData);
+
+ })
+  function fetchData(data)
+  {
+  	var sc=data.val();
+  	var keys=Object.keys(sc);
+  	var k,res=false,user;
+  	for(var i=0;i<keys.length;i++)
+  	{
+  		k=keys[i];
+  		if(email==sc[k].emaiL&&pass==atob(sc[k].passWord))
+  		{
+  			res=true;
+  			user=sc[k].firstName;
+  			break;
+
+  		}
+
+
+  	}
+  	if(res==true)
+  	{
+  		alert("welcome maderchod "+user );
+  		
+  	}
+  	else
+  	{
+  		alert("invalid login");
+  	}
+
+  }
+  function errorData(err)
+  {
+  	console.log(err);
+  }
+  </script>
+</html>

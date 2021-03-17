@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+  <label for="fname">First name:</label><br>
+  <input type="text" id="fname" name="fname"><br>
+  <label for="lname">Last name:</label><br>
+  <input type="text" id="lname" name="lname">
+  <label>password</label>
+  <input type="password" id="par" name="par">
+  <label>email</label>
+  <input type="email" id="email" name="" placeholder="enter the email">
+  <label>images</label>
+  <input type="file" id="imgd">
+
+  <button id="click">submit</button>
+<hr>
+  <h1>display Data</h1>
+  <div id ="main">
+  	
+  
+  </div>
+
+
+</body>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.16.0/firebase.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDWL8SlS28eqK2WdsPZ66NqQN2BEks09c0",
+    authDomain: "fir-e2c96.firebaseapp.com",
+    databaseURL: "https://fir-e2c96-default-rtdb.firebaseio.com/",
+    projectId: "fir-e2c96",
+    storageBucket: "fir-e2c96.appspot.com",
+    messagingSenderId: "873698487049",
+    appId: "1:873698487049:web:f0c4f13dd431f6d45f01d8"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  var ref=firebase.database().ref("form");
+  //add data
+  function getData(){
+
+  	  var sname = document.querySelector("#fname").value;
+  	  var dname = document.querySelector("#lname").value;
+  	  var pasWor = document.querySelector("#par").value;
+  	  var emg = document.querySelector("#email").value;
+  	  var pasEncy = btoa(pasWor);
+ 		let sendData = ref.push();
+ 		sendData.set({
+ 			firstName:sname,
+ 			LastName:dname,
+ 			passWord:pasEncy,
+ 			emaiL:emg
+ 		}
+ 		);
+ 		alert("sucess");
+  }
+  click.addEventListener("click",getData);
+  //read data
+  ref.on('value',fetchData,errorData)
+
+  function fetchData(data)
+  {
+  	document.getElementById("main").innerHTML="";
+  	var sc=data.val();
+  	var keys=Object.keys(sc);
+  	var k; 
+  	var lastname,firstname,eml;
+  	for(let i =0;i<keys.length;i++)
+  	{ 
+  		k=keys[i];
+  		lastname=sc[k].LastName;
+  		firstname=sc[k].firstName;
+  		eml=sc[k].emaiL;
+  		document.getElementById("main").innerHTML+=`
+  			 <div>
+  				<P>name- `+firstname+`</P>
+  				<p>lastname- `+lastname+`</p>
+  				<p>email- `+eml+`</p>
+  				<button onclick=deleteData("`+k+`")>delete</button>
+  			</div>
+  			<hr>
+  		`;
+
+  	}
+  }
+  function errorData(err)
+  {
+  	console.log(err);
+  }
+  function deleteData(key)
+  {
+  	ref.child(key).remove();
+  	alert("sucessfully deleted")
+  }
+</script>
+</html>
